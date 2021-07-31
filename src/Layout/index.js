@@ -3,6 +3,8 @@ import { Switch, Route, useHistory } from "react-router-dom";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import CreateDeck from "./CreateDeck";
+import DeckList from "./DeckList";
+import Deck from "./Deck";
 
 function Layout() {
   const history = useHistory();
@@ -15,16 +17,16 @@ function Layout() {
           <Route exact path="/">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-secondary mb-2"
               onClick={() => history.push("/decks/new")}
             >
               <span class="oi oi-plus"></span> Create Deck
             </button>
             {/* <DeckList /> */}
             <br />
-            Deck List HERE
+            <DeckList />
           </Route>
-          <Route path="/decks/new">
+          <Route exact path="/decks/new">
             <CreateDeck />
           </Route>
           <Route>

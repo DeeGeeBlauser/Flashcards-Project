@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Switch,
   Route,
@@ -9,6 +9,8 @@ import {
 import Deck from "./Deck";
 
 function CreateDeck() {
+  const [deckName, setDeckName] = useState("");
+  const [deckDescription, setDeckDescription] = useState("");
   const history = useHistory();
   const { url } = useRouteMatch();
   return (
@@ -36,6 +38,8 @@ function CreateDeck() {
               name="name"
               type="text"
               placeHolder="Deck Name"
+              value={deckName}
+              onChange={(event) => setDeckName(event.target.value)}
               required
             />
           </div>
@@ -46,6 +50,8 @@ function CreateDeck() {
               id="description"
               placeHolder="Brief description of the deck"
               rows="4"
+              value={deckDescription}
+              onChange={(event) => setDeckDescription(event.target.value)}
               required
             ></textarea>
           </div>
