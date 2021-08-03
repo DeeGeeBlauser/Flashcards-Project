@@ -5,6 +5,8 @@ import NotFound from "./NotFound";
 import CreateDeck from "./CreateDeck";
 import DeckList from "./DeckList";
 import Deck from "./Deck";
+import Study from "./Study";
+import EditDeck from "./EditDeck";
 import { listDecks } from "../utils/api";
 
 function Layout() {
@@ -44,7 +46,13 @@ function Layout() {
             <DeckList decks={decks} />
           </Route>
           <Route exact path="/decks/new">
-            <CreateDeck />
+            <CreateDeck decks={decks}/>
+          </Route>
+          <Route path="/decks/:deckId/study">
+            <Study />
+          </Route>
+          <Route path="/decks/:deckId/edit">
+            <EditDeck />
           </Route>
           <Route path="/decks/:deckId">
             <Deck />

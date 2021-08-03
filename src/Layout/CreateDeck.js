@@ -6,13 +6,23 @@ import {
   useHistory,
   useRouteMatch,
 } from "react-router-dom";
+import { createDeck } from "../utils/api";
 import Deck from "./Deck";
 
-function CreateDeck() {
+function CreateDeck({ decks }) {
   const [deckName, setDeckName] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
   const history = useHistory();
   const { url } = useRouteMatch();
+
+  const newDeck = { name: deckName, description: deckDescription };
+  const submitHandler = (event) => {
+    event.preventDefault();
+    createDeck(newDeck)
+      .then((response) => decks.push(response))
+      .then(history.push(`${newDeck.id}`));
+  };
+
   return (
     <Switch>
       <Route exact path={url}>
@@ -29,7 +39,7 @@ function CreateDeck() {
           </ol>
         </nav>
         <h1>Create Deck</h1>
-        <form onSubmit={() => history.push("/decks/:deckId")}>
+        <form onSubmit={submitHandler}>
           <div className="form-group">
             <label htmlFor="name">Name</label>
             <input

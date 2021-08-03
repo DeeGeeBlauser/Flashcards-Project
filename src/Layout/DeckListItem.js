@@ -1,7 +1,15 @@
-import React from "react";
-import {Link} from "react-router-dom"
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { deleteDeck } from "../utils/api";
 
-function DeckListItem({ deck }) {
+function DeckListItem({ deck, decks }) {
+
+  // const deleteHandler = (event) => {
+  //   event.preventDefault()
+  //   deleteDeck(deck.id)
+  //   .then((response) => decks)
+  // }
+
   return (
     <div className="card my-4">
       <div className="card-body">
@@ -19,12 +27,20 @@ function DeckListItem({ deck }) {
         <Link to={`/decks/${deck.id}/edit`} className="btn btn-info mr-2">
           <span className="oi oi-list mr-1"></span>Edit
         </Link>
-        <Link
-          to={`/decks/${deck.id}/DELETE`}
+        <button
+          type="button"
+          onClick={() => {
+            if (
+              window.confirm(
+                "Delete this deck? \n\nYou will not be able to recover it."
+              )
+            ) { 
+            }
+          }}
           className="btn btn-danger text-center float-right"
         >
           <span className="oi oi-trash"></span>
-        </Link>
+        </button>
       </div>
     </div>
   );
