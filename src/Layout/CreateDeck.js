@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Switch,
   Route,
@@ -6,46 +6,64 @@ import {
   useHistory,
   useRouteMatch,
 } from "react-router-dom";
+import { createDeck } from "../utils/api";
 import Deck from "./Deck";
 
-function CreateDeck() {
+function CreateDeck({ decks }) {
+  const [deckName, setDeckName] = useState("");
+  const [deckDescription, setDeckDescription] = useState("");
   const history = useHistory();
   const { url } = useRouteMatch();
+
+  const newDeck = { name: deckName, description: deckDescription };
+  const submitHandler = (event) => {
+    event.preventDefault();
+    createDeck(newDeck)
+      .then((response) => {
+          decks.push(response)
+          history.push(`${response.id}`)
+  
+        });
+    }
   return (
     <Switch>
       <Route exact path={url}>
-        <nav ariaLabel="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
+        <nav aria-label="breadcrumb">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
               <Link to="/">
-                <span class="oi oi-home"></span>Home
+                <span className="oi oi-home"></span>Home
               </Link>
             </li>
-            <li class="breadcrumb-item active" ariaCurrent="page">
+            <li className="breadcrumb-item active" aria-current="page">
               Create Deck
             </li>
           </ol>
         </nav>
         <h1>Create Deck</h1>
-        <form onSubmit={() => history.push("/decks/:deckId")}>
-          <div class="form-group">
-            <label for="name">Name</label>
+        <form onSubmit={submitHandler}>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
             <input
-              class="form-control"
+              className="form-control"
               id="name"
               name="name"
               type="text"
-              placeHolder="Deck Name"
+              placeholder="Deck Name"
+              value={deckName}
+              onChange={(event) => setDeckName(event.target.value)}
               required
             />
           </div>
-          <div class="form-group">
-            <label for="description">Description</label>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
             <textarea
-              class="form-control"
+              className="form-control"
               id="description"
-              placeHolder="Brief description of the deck"
+              placeholder="Brief description of the deck"
               rows="4"
+              value={deckDescription}
+              onChange={(event) => setDeckDescription(event.target.value)}
               required
             ></textarea>
           </div>
@@ -53,11 +71,15 @@ function CreateDeck() {
           <button
             onClick={() => history.push("/")}
             type="button"
-            class="btn btn-secondary mr-2"
+            className="btn btn-secondary mr-2"
           >
             Cancel
           </button>
-          <input class="btn btn-primary" type="submit" value="Submit"></input>
+          <button
+            className="btn btn-primary"
+            type="submit"
+            value="Submit"
+          ></button>
         </form>
       </Route>
       <Route path="/decks/:deckId">
