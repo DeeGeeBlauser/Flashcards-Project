@@ -43,7 +43,7 @@ function Layout() {
             >
               <span className="oi oi-plus"></span> Create Deck
             </button>
-            <DeckList decks={decks} />
+            <DeckList decks={decks} setDecks={setDecks} />
           </Route>
           <Route exact path="/decks/new">
             <CreateDeck decks={decks}/>
@@ -51,11 +51,9 @@ function Layout() {
           <Route path="/decks/:deckId/study">
             <Study />
           </Route>
-          <Route path="/decks/:deckId/edit">
-            <EditDeck />
-          </Route>
+         
           <Route path="/decks/:deckId">
-            <Deck />
+            <Deck decks={decks} setDecks={setDecks}/>
           </Route>
           <Route>
             <NotFound />

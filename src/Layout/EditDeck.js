@@ -1,52 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useHistory, useRouteMatch, useParams } from "react-router-dom";
-import { listCards, readDeck } from "../utils/api";
 import { updateDeck } from "../utils/api";
 
-function EditDeck() {
-  const [deck, setDeck] = useState({});
-//   const [cards, setCards] = useState([]);
-  const [deckName, setDeckName] = useState("");
-  const [deckDescription, setDeckDescription] = useState("");
+function EditDeck({deck}) {
+  const [deckName, setDeckName] = useState(deck.name);
+  const [deckDescription, setDeckDescription] = useState(deck.description);
   const history = useHistory();
-//   const { url } = useRouteMatch();
-  const deckId = useParams().deckId;
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    async function fetchDeck() {
-      try {
-        const deck = await readDeck(deckId, abortController.signal);
-        setDeck(deck);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    fetchDeck();
-
-    return () => {
-      abortController.abort();
-    };
-  }, [deckId]);
-
-  
-
-//   useEffect(() => {
-//     const abortController = new AbortController();
-//     async function fetchCards() {
-//       try {
-//         const cards = await listCards(deckId, abortController.signal);
-//         setCards(cards);
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     }
-//     fetchCards();
-
-//     return () => {
-//       abortController.abort();
-//     };
-//   }, [deckId]);
+  const submitHandler = (event) => {
+    event.preventDefault();
+    updateDeck({...deck, name: deckName, description: deckDescription})
+      .then((response) => {
+          deck.name = response.name
+          deck.description = response.description
+      })
+      .then(history.go(0))
+      .catch(console.log)
+  };
 
   return (
       <>
@@ -68,7 +38,7 @@ function EditDeck() {
       </ol>
     </nav>
     <h1 className="mb-3">Edit Deck</h1>
-    <form onSubmit={() => history.push("/decks/:deckId")}>
+    <form onSubmit={submitHandler}> 
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
@@ -96,7 +66,7 @@ function EditDeck() {
         </div>
         <br />
           <button
-            onClick={() => history.push("/")}
+            onClick={() => history.go(-1)}
             type="button"
             className="btn btn-secondary mr-2"
           >
@@ -104,7 +74,6 @@ function EditDeck() {
           </button>
           <input
             className="btn btn-primary"
-            onClick={() => history.push("/")}
             type="submit"
             value="Submit"
           ></input>

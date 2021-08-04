@@ -19,10 +19,12 @@ function CreateDeck({ decks }) {
   const submitHandler = (event) => {
     event.preventDefault();
     createDeck(newDeck)
-      .then((response) => decks.push(response))
-      .then(history.push(`${newDeck.id}`));
-  };
-
+      .then((response) => {
+          decks.push(response)
+          history.push(`${response.id}`)
+  
+        });
+    }
   return (
     <Switch>
       <Route exact path={url}>
@@ -73,11 +75,11 @@ function CreateDeck({ decks }) {
           >
             Cancel
           </button>
-          <input
+          <button
             className="btn btn-primary"
             type="submit"
             value="Submit"
-          ></input>
+          ></button>
         </form>
       </Route>
       <Route path="/decks/:deckId">

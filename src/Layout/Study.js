@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { listCards, readDeck } from "../utils/api";
+import { readDeck } from "../utils/api";
 import NotEnoughCards from "./NotEnoughCards";
 
 function Study() {
@@ -9,7 +9,7 @@ function Study() {
   const [isCardFlipped, setIsCardFlipped] = useState(false);
   const [wasCardFlipped, setWasCardFlipped] = useState(false);
   const [deck, setDeck] = useState({});
-  const [cards, setCards] = useState([]);
+  const length = deck.cards ? deck.cards.length : 0;
   const deckId = useParams().deckId;
   useEffect(() => {
     const abortController = new AbortController();
@@ -28,33 +28,18 @@ function Study() {
     };
   }, [deckId]);
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    async function fetchCards() {
-      try {
-        const cards = await listCards(deckId, abortController.signal);
-        setCards(cards);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    fetchCards();
-
-    return () => {
-      abortController.abort();
-    };
-  }, [deckId]);
-
-  const currentCard = cards[currentCardIndex] || { front: "", back: "" };
+  const currentCard = deck.cards
+    ? deck.cards[currentCardIndex]
+    : { front: "", back: "" };
   function renderCard(currentCard) {
     return (
       <>
-        <div class="mb-4">
+        <div className="mb-4">
           {isCardFlipped ? currentCard.back : currentCard.front}
         </div>
         <button
           type="button"
-          class="btn btn-secondary mr-2"
+          className="btn btn-secondary mr-2"
           onClick={() => {
             setIsCardFlipped(!isCardFlipped);
             setWasCardFlipped(true);
@@ -65,9 +50,9 @@ function Study() {
         {wasCardFlipped ? (
           <button
             type="button"
-            class="btn btn-primary mr-2"
+            className="btn btn-primary mr-2"
             onClick={() => {
-              if (currentCardIndex + 1 >= cards.length) {
+              if (currentCardIndex + 1 >= length) {
                 if (
                   window.confirm(
                     "Restart cards? \n\nClick 'cancel' to return to the home page"
@@ -115,20 +100,20 @@ function Study() {
           </li>
         </ol>
       </nav>
-      
-      {cards.length <= 2 ? (
-        <NotEnoughCards deck={deck} cards={cards}/>
+
+      {length <= 2 ? (
+        <NotEnoughCards deck={deck} length={length} />
       ) : (
-          <>
+        <>
           <h1 className="mb-3">Study: {deck.name}</h1>
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">
-              Card {currentCardIndex + 1} of {cards.length}
-            </h4>
-            <p class="card-text">{renderCard(currentCard)}</p>
+          <div className="card">
+            <div className="card-body">
+              <h4 className="card-title">
+                Card {currentCardIndex + 1} of {length}
+              </h4>
+              <div className="card-text">{renderCard(currentCard)}</div>
+            </div>
           </div>
-        </div>
         </>
       )}
     </>

@@ -5,16 +5,20 @@ import {
   Switch,
   useParams,
   useRouteMatch,
+  useHistory
 } from "react-router-dom";
 import { readDeck } from "../utils/api";
 import CardList from "./CardList";
 import EditCard from "./EditCard";
 import AddCard from "./AddCard";
+import EditDeck from "./EditDeck";
+import { deleteDeck } from "../utils/api";
 
-function Deck() {
+function Deck({decks, setDecks}) {
   const [deck, setDeck] = useState({});
   const deckId = useParams().deckId;
   const { url } = useRouteMatch();
+  const history = useHistory()
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -32,6 +36,15 @@ function Deck() {
       abortController.abort();
     };
   }, [deckId]);
+
+  const deleteHandler = () => {
+    deleteDeck(deck.id)
+      .then(() => {
+        setDecks(decks.filter((currentDeck) => currentDeck.id !== deck.id));
+      })
+      .then(history.push("/"))
+      .catch((error) => console.log(error));
+  };
 
   return deck.id ? (
     <>
@@ -68,7 +81,7 @@ function Deck() {
                   window.confirm(
                     "Delete this deck? \n\nYou will not be able to recover it."
                   )
-                ) {
+                ) { deleteHandler()
                 }
               }}
               className="btn btn-danger text-center float-right"
@@ -76,9 +89,12 @@ function Deck() {
               <span className="oi oi-trash"></span>
             </button>
             <h3 className="mt-4">Cards</h3>
-            <CardList cards={deck.cards} />
+            <CardList cards={deck.cards} deck={deck} setDeck={setDeck}/>
           </div>
         </Route>
+        <Route path={`${url}/edit`}>
+            <EditDeck deck={deck}/>
+          </Route>
         <Route exact path={`${url}/cards/new`}>
           <AddCard deck={deck} />
         </Route>
