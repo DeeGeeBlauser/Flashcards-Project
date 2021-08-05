@@ -79,7 +79,7 @@ function CreateDeck({ decks }) {
             className="btn btn-primary"
             type="submit"
             value="Submit"
-          ></button>
+          >Submit</button>
         </form>
       </Route>
       <Route path="/decks/:deckId">

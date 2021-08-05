@@ -6,7 +6,6 @@ import CreateDeck from "./CreateDeck";
 import DeckList from "./DeckList";
 import Deck from "./Deck";
 import Study from "./Study";
-import EditDeck from "./EditDeck";
 import { listDecks } from "../utils/api";
 
 function Layout() {
