@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useHistory, useRouteMatch } from "react-router-dom";
-import { deleteCard } from "../utils/api";
+import { deleteCard } from "../../utils/api";
 
 function Card({ card, cards, deck, setDeck }) {
   const history = useHistory();

@@ -7,12 +7,12 @@ import {
   useRouteMatch,
   useHistory
 } from "react-router-dom";
-import { readDeck } from "../utils/api";
+import { readDeck } from "../../utils/api";
 import CardList from "./CardList";
-import EditCard from "./EditCard";
-import AddCard from "./AddCard";
-import EditDeck from "./EditDeck";
-import { deleteDeck } from "../utils/api";
+import EditCard from "../EditDeck/EditCard";
+import AddCard from "../EditDeck/AddCard";
+import EditDeck from "../EditDeck/EditDeck";
+import { deleteDeck } from "../../utils/api";
 
 function Deck({decks, setDecks}) {
   const [deck, setDeck] = useState({});

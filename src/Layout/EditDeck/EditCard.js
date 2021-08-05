@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
-import { readCard } from "../utils/api";
-import { updateCard } from "../utils/api";
-import CardForm from "./CardForm";
+import { readCard } from "../../utils/api";
+import { updateCard } from "../../utils/api";
+import CardForm from "../Common/CardForm";
 
 function EditCard({ deck }) {
   const history = useHistory();

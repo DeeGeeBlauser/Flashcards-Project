@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route, useHistory } from "react-router-dom";
-import Header from "./Header";
-import NotFound from "./NotFound";
-import CreateDeck from "./CreateDeck";
-import DeckList from "./DeckList";
-import Deck from "./Deck";
-import Study from "./Study";
+import Header from "./Common/Header";
+import NotFound from "./Common/NotFound";
+import CreateDeck from "./Home/CreateDeck";
+import DeckList from "./Home/DeckList";
+import Deck from "./Deck/Deck";
+import Study from "./Study/Study";
 import { listDecks } from "../utils/api";
 
 function Layout() {

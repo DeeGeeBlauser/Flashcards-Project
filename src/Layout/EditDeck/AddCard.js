@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import CardForm from "./CardForm";
-import { createCard } from "../utils/api";
+import CardForm from "../Common/CardForm";
+import { createCard } from "../../utils/api";
 
 function AddCard({ deck }) {
    const [newCard, setNewCard] = useState({front:"",back:""})

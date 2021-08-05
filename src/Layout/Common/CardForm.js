@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useRouteMatch, useHistory} from "react-router-dom"
-import { updateCard } from "../utils/api";
+import { updateCard } from "../../utils/api";
 
 
 function CardForm({submit, cancel, card, setCard}) {

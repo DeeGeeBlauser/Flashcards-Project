@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { deleteDeck } from "../utils/api";
+import { deleteDeck } from "../../utils/api";
 
 function DeckListItem({ deck, decks, setDecks }) {
   const deleteHandler = () => {

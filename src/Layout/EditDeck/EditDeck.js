@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory, useRouteMatch, useParams } from "react-router-dom";
-import { updateDeck } from "../utils/api";
+import { updateDeck } from "../../utils/api";
 
 function EditDeck({deck}) {
   const [deckName, setDeckName] = useState(deck.name);

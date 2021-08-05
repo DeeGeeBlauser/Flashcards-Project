@@ -6,8 +6,8 @@ import {
   useHistory,
   useRouteMatch,
 } from "react-router-dom";
-import { createDeck } from "../utils/api";
-import Deck from "./Deck";
+import { createDeck } from "../../utils/api";
+import Deck from "../Deck/Deck";
 
 function CreateDeck({ decks }) {
   const [deckName, setDeckName] = useState("");
