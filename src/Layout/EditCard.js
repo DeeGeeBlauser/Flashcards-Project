@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useHistory } from "react-router-dom";
 import { readCard } from "../utils/api";
 import { updateCard } from "../utils/api";
+import CardForm from "./CardForm";
 
 function EditCard({ deck }) {
   const history = useHistory();
@@ -25,12 +26,14 @@ function EditCard({ deck }) {
     };
   }, [cardId]);
 
-  const submitHandler = (event) => {
-    event.preventDefault();
+  const editSubmitHandler = () => {
     updateCard(card)
       .then((response) => {
         card.front = response.front;
         card.back = response.back;
+        const targetCard = deck.cards.find((card) => card.id === cardId);
+        targetCard.front = card.front;
+        targetCard.back = card.back;
       })
       .then(history.push(`/decks/${deck.id}`))
       .catch(console.log);
@@ -56,49 +59,13 @@ function EditCard({ deck }) {
           </li>
         </ol>
       </nav>
-      <form onSubmit={submitHandler}>
-        <div className="form-group">
-          <label htmlFor="name">Front</label>
-          <textarea
-            className="form-control"
-            id="front"
-            name="front"
-            type="text"
-            rows="2"
-            value={card.front}
-            onChange={(event) =>
-              setCard({ ...card, front: event.target.value })
-            }
-            required
-          ></textarea>
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Back</label>
-          <textarea
-            className="form-control"
-            id="back"
-            name="back"
-            rows="2"
-            value={card.back}
-            onChange={(event) => setCard({ ...card, back: event.target.value })}
-            required
-          ></textarea>
-        </div>
-        <br />
-        <button
-          onClick={() => history.go(-1)}
-          type="button"
-          className="btn btn-secondary mr-2"
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="btn btn-primary mr-2"
-        >
-          Save
-        </button>
-      </form>
+      <CardForm
+        deck={deck}
+        card={card}
+        setCard={setCard}
+        submit={{ name: "Submit", action: editSubmitHandler }}
+        cancel={{ name: "Cancel", url: `/decks/${deck.id}` }}
+      />
     </>
   );
 }
